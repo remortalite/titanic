@@ -38,12 +38,11 @@ class Payout(Base):
     wallet_id: Mapped[int] = mapped_column(ForeignKey('wallet.id'))
 
 
-goal_bite_table = Table(
-    "association_table",
-    Base.metadata,
-    Column("goal_id", ForeignKey("goal.id"), primary_key=True),
-    Column("bite_id", ForeignKey("bite.id"), primary_key=True),
-)
+class Goal(Base):
+    __tablename__ = 'goal'
+    
+    id: Mapped[int] = mapped_column(Integer, primary_key=True, autoincrement=True)
+    sum: Mapped[int] = mapped_column(Integer, default=0)
 
 
 class Bite(Base):
@@ -53,13 +52,4 @@ class Bite(Base):
     payout_id: Mapped[int] = mapped_column(ForeignKey('payout.id'))
     sum: Mapped[int] = mapped_column(Integer, default=0)
     
-    goals: Mapped[List['Goal']] = relationship(secondary=goal_bite_table, back_populates='bites')
-    
-
-class Goal(Base):
-    __tablename__ = 'goal'
-    
-    id: Mapped[int] = mapped_column(Integer, primary_key=True, autoincrement=True)
-    sum: Mapped[int] = mapped_column(Integer, default=0)
-
-    bites: Mapped[List[Bite]] = relationship(secondary=goal_bite_table, back_populates='goals')
+    goal_id: Mapped[int] = mapped_column(ForeignKey('goal.id'))
