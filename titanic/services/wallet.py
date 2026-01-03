@@ -39,3 +39,12 @@ def create_wallet(user_id: int, name: str, bank: str, full_sum: int = 0) ->  Wal
         full_sum=full_sum,
     )
     return wallet_model
+
+
+def delete_wallet(id: int):
+    with Session(engine) as session:
+        wallet_obj = session.get(Wallet, id)
+        if not wallet_obj:
+            raise exceptions.WalletNotExists(f'Wallet with id={id} does not exist')
+        session.delete(wallet_obj)
+        session.commit()
