@@ -48,3 +48,29 @@ def delete_wallet(id: int):
             raise exceptions.WalletNotExists(f'Wallet with id={id} does not exist')
         session.delete(wallet_obj)
         session.commit()
+
+
+def update_wallet(id: int,
+                  user_id: int | None = None,
+                  name: str | None = None,
+                  bank: str | None = None,
+                  full_sum: int | None = None) ->  WalletModel:
+    with Session(engine) as session:
+        wallet_obj = session.get(Wallet, id)
+        if not wallet_obj:
+            raise exceptions.WalletNotExists(f'Wallet with id={id} does not exist')
+
+        if user_id:
+            wallet_obj.user_id = user_id
+        if name:
+            wallet_obj.name = name
+        if bank:
+            wallet_obj.bank_name = bank
+        if full_sum:
+            wallet_obj.full_sum = full_sum
+        
+        session.add(wallet_obj)
+        session.commit()
+        
+    wallet_model = get_wallet(id=id)
+    return wallet_model
