@@ -60,13 +60,13 @@ def test_update_wallet(wallet_obj):
         'bank': 'Tbank',
     }
     
-    wallet_service.update_wallet(wallet_obj, name=new_data['name'])
+    wallet_service.update_wallet(id=wallet_obj.id, name=new_data['name'])
 
     wallet_new = wallet_service.get_wallet(wallet_obj.id)
     assert wallet_new.name == new_data['name']
     assert not wallet_new.bank == new_data['bank']
     
-    wallet_service.update_wallet(wallet_new, bank=new_data['bank'])
+    wallet_service.update_wallet(id=wallet_new.id, bank=new_data['bank'])
     
     wallet_new_new = wallet_service.get_wallet(wallet_obj.id)
     assert wallet_new.name == new_data['name']
