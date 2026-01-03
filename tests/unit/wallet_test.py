@@ -28,6 +28,8 @@ def test_create_wallet():
     assert wallet_created.user_id == wallet.user_id
     assert wallet_created.name == wallet.name
     assert wallet_created.bank == wallet.bank
+    
+    wallet_service.delete_wallet(id=wallet.id)
 
 
 @pytest.fixture
@@ -44,7 +46,9 @@ def wallet_obj():
         bank=data['bank'],
     )
     
-    return wallet
+    yield wallet
+    
+    wallet_service.delete_wallet(id=wallet.id)
 
 
 def test_update_wallet(wallet_obj):
@@ -68,7 +72,7 @@ def test_update_wallet(wallet_obj):
 
 def test_delete_wallet(wallet_obj):
     wallet_id = wallet_obj.id
-    wallet_service.delete_wallet(wallet_obj)
+    wallet_service.delete_wallet(id=wallet_obj.id)
     
     with pytest.raises(exceptions.WalletNotExists):
         assert wallet_service.get_wallet(id=wallet_id)
