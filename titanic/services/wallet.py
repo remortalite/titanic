@@ -21,3 +21,21 @@ def get_wallet(id: int) -> WalletModel:
         full_sum=wallet_obj.full_sum,
     )
     return wallet_model
+
+
+def create_wallet(user_id: int, name: str, bank: str, full_sum: int = 0) ->  WalletModel:
+    with Session(engine) as session:
+        wallet_obj = Wallet(user_id=user_id, name=name, bank_name=bank, full_sum=full_sum)
+        session.add(wallet_obj)
+        session.flush()
+        wallet_id = wallet_obj.id
+        session.commit()
+        
+    wallet_model = WalletModel(
+        id=wallet_id,
+        user_id=user_id,
+        name=name,
+        bank=bank,
+        full_sum=full_sum,
+    )
+    return wallet_model
