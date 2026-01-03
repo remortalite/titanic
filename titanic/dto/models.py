@@ -21,7 +21,7 @@ class Wallet(Base):
     __tablename__ = 'wallets'
     
     id: Mapped[int] = mapped_column(Integer, primary_key=True, autoincrement=True)
-    user_id: Mapped[User] = mapped_column(ForeignKey('users.id'))
+    user_id: Mapped[int] = mapped_column(ForeignKey('users.id'))
     name: Mapped[str] = mapped_column(String(30))
     bank_name: Mapped[str] = mapped_column(String(30), nullable=True)
     full_sum: Mapped[int] = mapped_column(Integer, default=0)
