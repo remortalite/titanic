@@ -4,12 +4,6 @@ from titanic.models import Wallet
 from titanic.services import wallet as wallet_service
 
 
-def test_get_wallet():
-    wallet: Wallet = wallet_service.get_wallet(id=0)
-    
-    assert wallet is not None
-
-
 def test_create_wallet():
     data = {
         'user_id': 123,
@@ -48,7 +42,16 @@ def wallet_obj():
     
     yield wallet
     
-    wallet_service.delete_wallet(id=wallet.id)
+    try:
+        wallet_service.delete_wallet(id=wallet.id)
+    except Exception:
+        pass
+
+
+def test_get_wallet(wallet_obj):
+    wallet: Wallet = wallet_service.get_wallet(id=wallet_obj.id)
+    
+    assert wallet is not None
 
 
 def test_update_wallet(wallet_obj):
@@ -72,7 +75,7 @@ def test_update_wallet(wallet_obj):
 
 def test_delete_wallet(wallet_obj):
     wallet_id = wallet_obj.id
-    wallet_service.delete_wallet(id=wallet_obj.id)
+    wallet_service.delete_wallet(id=wallet_id)
     
     with pytest.raises(exceptions.WalletNotExists):
-        assert wallet_service.get_wallet(id=wallet_id)
+        wallet_service.get_wallet(id=wallet_id)
