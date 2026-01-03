@@ -12,20 +12,20 @@ def test_get_wallet():
 
 def test_create_wallet():
     data = {
-        'user': 'rem',
+        'user_id': 123,
         'name': 'wallet_1',
         'bank': 'sber',
     }
     
     wallet: Wallet = wallet_service.create_wallet(
-        user=data['user'],
+        user_id=data['user_id'],
         name=data['name'],
         bank=data['bank'],
     )
 
     wallet_created = wallet_service.get_wallet(id=wallet.id)
 
-    assert wallet_created.user == wallet.user
+    assert wallet_created.user_id == wallet.user_id
     assert wallet_created.name == wallet.name
     assert wallet_created.bank == wallet.bank
 
@@ -33,13 +33,13 @@ def test_create_wallet():
 @pytest.fixture
 def wallet_obj():
     data = {
-        'user': 'rem',
+        'user_id': 'rem',
         'name': 'wallet_1',
         'bank': 'sber',
     }
     
     wallet: Wallet = wallet_service.create_wallet(
-        user=data['user'],
+        user_id=data['user_id'],
         name=data['name'],
         bank=data['bank'],
     )
