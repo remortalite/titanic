@@ -33,7 +33,7 @@ def test_create_wallet():
 @pytest.fixture
 def wallet_obj():
     data = {
-        'user_id': 'rem',
+        'user_id': 123,
         'name': 'wallet_1',
         'bank': 'sber',
     }
